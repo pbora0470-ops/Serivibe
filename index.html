@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mere Videos</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: system-ui; margin: 0; padding: 16px; background: #fff; color: #000; }
+    h2 { margin-top: 0; }
+    .card { margin-bottom: 20px; }
+    .card h3 { font-size: 15px; margin: 0 0 8px; }
+    iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 10px; }
+    .msg { opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <h2>Mere Videos</h2>
+  <div id="videos" class="msg">Loading...</div>
+
+  <script>
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+
+    // 👇 YAHAN APNA BLOG URL DAALO
+    const BLOG_URL = "https://www.serivibe.in/";
+
+    async function load() {
+      const box = document.getElementById("videos");
+      try {
+        const res = await fetch(BLOG_URL + "/feeds/posts/default?alt=json&max-results=20");
+        const data = await res.json();
+        const entries = data.feed.entry || [];
+        box.innerHTML = "";
+
+        entries.forEach(e => {
+          const title = e.title?.$t || "Video";
+          const html = e.content?.$t || e.summary?.$t || "";
+          const m = html.match(/<iframe[^>]+src=["']([^"']+)["']/i);
+          if (!m) return;
+
+          let src = m[1];
+          const yt = src.match(/(?:youtube\.com\/embed\/|youtu\.be\/|youtube\.com\/watch\?v=)([^"&?]+)/);
+          if (yt) src = "https://www.youtube.com/embed/" + yt[1];
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `<h3>${title}</h3>
+            <iframe src="${src}" allowfullscreen loading="lazy"></iframe>`;
+          box.appendChild(card);
+        });
+
+        if (!box.children.length) box.textContent = "Koi video post nahi mila.";
+      } catch (err) {
+        box.textContent = "Error: " + err.message;
+      }
+    }
+    load();
+  </script>
+</body>
+</html>
