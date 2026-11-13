@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mere Videos</title>
+  <title>SeriVibe Videos</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body { font-family: system-ui; margin: 0; padding: 16px; background: #fff; color: #000; }
-    h2 { margin-top: 0; }
+    h2 { margin-top: 0; text-align: center; }
     .card { margin-bottom: 20px; }
     .card h3 { font-size: 15px; margin: 0 0 8px; }
     iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 10px; }
-    .msg { opacity: 0.7; }
+    .msg { text-align: center; opacity: 0.7; margin-top: 50px; }
   </style>
 </head>
 <body>
-  <h2>Mere Videos</h2>
+  <h2>SeriVibe Videos</h2>
   <div id="videos" class="msg">Loading...</div>
 
   <script>
     Telegram.WebApp.ready();
     Telegram.WebApp.expand();
 
-    // 👇 YAHAN APNA BLOG URL DAALO
-    const BLOG_URL = "https://www.serivibe.in/";
+    // 👇 Yahan aapka domain daal diya gaya hai
+    const BLOG_URL = "https://www.serivibe.in";
 
     async function load() {
       const box = document.getElementById("videos");
